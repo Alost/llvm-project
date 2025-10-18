@@ -5,112 +5,8 @@ on:
   push:
 
 jobs:
-  # init_release:
-  #   name: Init Release
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Init Release
-  #       id: init_release
-  #       uses: softprops/action-gh-release@v1
-  #       with:
-  #         name: LLVM+LLD 20.1.1-rust-1.87
-  #         draft: false
-  #         prerelease: false
-  #         generate_release_notes: false
-
-  # build_release_linux:
-  #   name: "LLVM Linux"
-  #   needs: init_release
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Repo
-  #       uses: actions/checkout@v2
-
-  #     - name: Set LLVM version
-  #       run: echo "LLVM_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
-
-  #     - name: Install Ninja Generator
-  #       uses: seanmiddleditch/gha-setup-ninja@master
-  #       with:
-  #         version: 1.11.0
-
-  #     - name: Compile & Install LLVM
-  #       run: |
-  #         mkdir build && cd build
-  #         cmake ../llvm \
-  #           -DCMAKE_BUILD_TYPE=Release \
-  #           -DCMAKE_INSTALL_PREFIX=~/llvm \
-  #           -DLLVM_ENABLE_PROJECTS=lld \
-  #           -DLLVM_LINK_LLVM_DYLIB=ON \
-  #           -DLLVM_ENABLE_TERMINFO=OFF \
-  #           -DLLVM_ENABLE_ZLIB=OFF \
-  #           -DLLVM_INCLUDE_BENCHMARKS=OFF \
-  #           -DLLVM_INCLUDE_DOCS=OFF \
-  #           -DLLVM_INCLUDE_EXAMPLES=OFF \
-  #           -DLLVM_INCLUDE_GO_TESTS=OFF \
-  #           -DLLVM_INCLUDE_RUNTIMES=OFF \
-  #           -DLLVM_INCLUDE_TESTS=OFF \
-  #           -DLLVM_INCLUDE_UTILS=OFF \
-  #           -G Ninja
-  #         ninja install
-
-  #     - name: Create Archive
-  #       run: tar -C ~ -czf llvm-lld-${{ env.LLVM_VERSION }}-linux.tar.gz llvm
-
-  #     - name: Release
-  #       uses: softprops/action-gh-release@v1
-  #       with:
-  #         tag_name: ${{ needs.init_release.outputs.tag-name }}
-  #         files: llvm-lld-${{ env.LLVM_VERSION }}-linux-x86_64.tar.gz
-
-  # build_release_macos:
-  #   name: "LLVM MacOS"
-  #   needs: init_release
-  #   runs-on: macos-latest
-  #   steps:
-  #     - name: Checkout Repo
-  #       uses: actions/checkout@v2
-
-  #     - name: Set LLVM version
-  #       run: echo "LLVM_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
-
-  #     - name: Install Ninja Generator
-  #       uses: seanmiddleditch/gha-setup-ninja@master
-  #       with:
-  #         version: 1.11.0
-
-  #     - name: Compile & Install LLVM
-  #       run: |
-  #         mkdir build && cd build
-  #         cmake ../llvm \
-  #           -DCMAKE_BUILD_TYPE=Release \
-  #           -DCMAKE_INSTALL_PREFIX=~/llvm \
-  #           -DLLVM_ENABLE_PROJECTS=lld \
-  #           -DLLVM_LINK_LLVM_DYLIB=ON \
-  #           -DLLVM_ENABLE_TERMINFO=OFF \
-  #           -DLLVM_ENABLE_ZLIB=OFF \
-  #           -DLLVM_INCLUDE_BENCHMARKS=OFF \
-  #           -DLLVM_INCLUDE_DOCS=OFF \
-  #           -DLLVM_INCLUDE_EXAMPLES=OFF \
-  #           -DLLVM_INCLUDE_GO_TESTS=OFF \
-  #           -DLLVM_INCLUDE_RUNTIMES=OFF \
-  #           -DLLVM_INCLUDE_TESTS=OFF \
-  #           -DLLVM_INCLUDE_UTILS=OFF \
-  #           -G Ninja
-  #         ninja install
-
-  #     - name: Create Archive
-  #       run: tar -C ~ -czf llvm-lld-${{ env.LLVM_VERSION }}-macos-arm64.tar.gz llvm
-
-  #     - name: Release
-  #       uses: softprops/action-gh-release@v1
-  #       with:
-  #         tag_name: ${{ needs.init_release.outputs.tag-name }}
-  #         files: llvm-lld-${{ env.LLVM_VERSION }}-macos-arm64.tar.gz
-
   build_release_windows:
     name: "LLVM Windows"
-    # needs: init_release
     runs-on: windows-latest
     env:
       LLVM_INSTALL_PATH: C:\llvm
@@ -137,7 +33,7 @@ jobs:
       - name: Compile & Install LLVM
         run: |
           mkdir build && cd build
-          cmake ..\llvm `
+          cmake ../llvm `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} `
             -DLLVM_ENABLE_PROJECTS=llvm;clang;lld;lldb `
@@ -154,15 +50,19 @@ jobs:
             -DLLVM_USE_CRT_RELEASE=MT `
             -G Ninja
           ninja install
-          copy lib\opt.lib ${{ env.LLVM_INSTALL_PATH }}\lib
-          copy lib\lld.lib ${{ env.LLVM_INSTALL_PATH }}\lib
+          copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
+          copy lib/lld.lib ${{ env.LLVM_INSTALL_PATH }}/lib
 
       - name: Create Archive
         run: 7z a -t7z llvm-lld-${{ env.LLVM_VERSION }}-windows-x86_64.7z ${{ env.LLVM_INSTALL_PATH }}
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          # tag_name: ${{ needs.init_release.outputs.tag-name }}
-          tag_name: llvm_20.1.1_rust_1.87.0
+          tag_name: ${{ env.LLVM_VERSION }}
+          name: ${{ github.event.head_commit.message }}-${{ env.LLVM_VERSION }}
+          body: |
+            ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false
           files: llvm-lld-${{ env.LLVM_VERSION }}-windows-x86_64.7z
