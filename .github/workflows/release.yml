@@ -50,7 +50,7 @@ jobs:
             -DLLVM_INCLUDE_TESTS=OFF \
             -DLLVM_INCLUDE_UTILS=ON \
             -DLLVM_USE_CRT_RELEASE=MT \
-            ../llvm
+            -S ../llvm
           ls ../llvm
           ls
           ninja install
