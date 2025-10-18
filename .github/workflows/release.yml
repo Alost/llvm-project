@@ -9,7 +9,7 @@ jobs:
     name: "LLVM Windows"
     runs-on: windows-latest
     env:
-      LLVM_INSTALL_PATH: C:\llvm
+      LLVM_INSTALL_PATH: C:/llvm
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -32,7 +32,6 @@ jobs:
 
       - name: Compile & Install LLVM
         run: |
-          set -x
           ls
           mkdir build && cd build
           ls
