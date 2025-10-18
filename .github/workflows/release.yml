@@ -116,7 +116,11 @@ jobs:
       LLVM_INSTALL_PATH: C:\llvm
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          lfs: true
+          fetch-depth: 1
 
       - name: Set LLVM version
         shell: bash
