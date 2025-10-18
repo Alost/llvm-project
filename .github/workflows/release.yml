@@ -31,6 +31,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Compile & Install LLVM
+        shell: bash
         run: |
           ls
           mkdir build && cd build
