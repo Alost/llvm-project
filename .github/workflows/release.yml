@@ -35,7 +35,7 @@ jobs:
           ls
           mkdir build && cd build
           ls
-          cmake ../llvm-project/llvm `
+          cmake ../llvm `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} `
             -DLLVM_ENABLE_PROJECTS=llvm;clang;lld;lldb `
@@ -51,6 +51,7 @@ jobs:
             -DLLVM_INCLUDE_UTILS=ON `
             -DLLVM_USE_CRT_RELEASE=MT `
             -G Ninja
+          ls
           ninja install
           copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
           copy lib/lld.lib ${{ env.LLVM_INSTALL_PATH }}/lib
