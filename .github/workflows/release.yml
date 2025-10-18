@@ -13,6 +13,7 @@ jobs:
         id: init_release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref_name }}
           name: LLVM+LLD 20.1.1-rust-1.87
           draft: false
           prerelease: false
