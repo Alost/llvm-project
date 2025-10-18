@@ -32,8 +32,10 @@ jobs:
 
       - name: Compile & Install LLVM
         run: |
+          ls
           mkdir build && cd build
-          cmake ../llvm `
+          ls
+          cmake ../llvm-project/llvm `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} `
             -DLLVM_ENABLE_PROJECTS=llvm;clang;lld;lldb `
