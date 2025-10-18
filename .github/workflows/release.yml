@@ -33,9 +33,8 @@ jobs:
       - name: Compile & Install LLVM
         shell: bash
         run: |
-          ls
+          set -euxo pipefail
           mkdir build && cd build
-          ls
           cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} \
@@ -53,6 +52,7 @@ jobs:
             -DLLVM_USE_CRT_RELEASE=MT \
             ../llvm
           ls ../llvm
+          ls
           ninja install
           copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
           copy lib/lld.lib ${{ env.LLVM_INSTALL_PATH }}/lib
