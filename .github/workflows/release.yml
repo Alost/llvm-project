@@ -51,7 +51,7 @@ jobs:
             -DLLVM_INCLUDE_UTILS=ON `
             -DLLVM_USE_CRT_RELEASE=MT `
             -G Ninja
-          ls
+          ls ../llvm
           ninja install
           copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
           copy lib/lld.lib ${{ env.LLVM_INSTALL_PATH }}/lib
