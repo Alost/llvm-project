@@ -31,28 +31,26 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Compile & Install LLVM
-        shell: bash
+        # shell: bash
         run: |
-          set -euxo pipefail
+          # set -euxo pipefail
           mkdir build && cd build
-          cmake -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} \
-            -DLLVM_ENABLE_PROJECTS="llvm;clang;lld;lldb" \
-            -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON \
-            -DLLVM_ENABLE_TERMINFO=OFF \
-            -DLLVM_ENABLE_ZLIB=OFF \
-            -DLLVM_INCLUDE_BENCHMARKS=OFF \
-            -DLLVM_INCLUDE_DOCS=OFF \
-            -DLLVM_INCLUDE_EXAMPLES=OFF \
-            -DLLVM_INCLUDE_GO_TESTS=OFF \
-            -DLLVM_INCLUDE_RUNTIMES=OFF \
-            -DLLVM_INCLUDE_TESTS=OFF \
-            -DLLVM_INCLUDE_UTILS=ON \
-            -DLLVM_USE_CRT_RELEASE=MT \
-            -DCMAKE_C_FLAGS=" /bigobj" \
-            -DCMAKE_CXX_FLAGS=" /bigobj" \
-            -S ../llvm
+          cmake ..\llvm `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} `
+            -DLLVM_ENABLE_PROJECTS=lld `
+            -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON `
+            -DLLVM_ENABLE_TERMINFO=OFF `
+            -DLLVM_ENABLE_ZLIB=OFF `
+            -DLLVM_INCLUDE_BENCHMARKS=OFF `
+            -DLLVM_INCLUDE_DOCS=OFF `
+            -DLLVM_INCLUDE_EXAMPLES=OFF `
+            -DLLVM_INCLUDE_GO_TESTS=OFF `
+            -DLLVM_INCLUDE_RUNTIMES=OFF `
+            -DLLVM_INCLUDE_TESTS=OFF `
+            -DLLVM_INCLUDE_UTILS=OFF `
+            -DLLVM_USE_CRT_RELEASE=MT `
+            -G Ninja
           ninja install
           copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
           copy lib/lld.lib ${{ env.LLVM_INSTALL_PATH }}/lib
