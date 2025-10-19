@@ -35,11 +35,11 @@ jobs:
         run: |
           # set -euxo pipefail
           $ErrorActionPreference = "Stop
-          # Set-StrictMode -Version Latest
+          Set-StrictMode -Version Latest
           Set-PSDebug -Trace 1
 
           mkdir build && cd build
-          cmake -G Ninja `
+          cmake --% -G Ninja `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} `
             -DLLVM_ENABLE_PROJECTS="llvm;clang;lld;lldb" `
