@@ -48,11 +48,9 @@ jobs:
             -DLLVM_INCLUDE_GO_TESTS=OFF \
             -DLLVM_INCLUDE_RUNTIMES=OFF \
             -DLLVM_INCLUDE_TESTS=OFF \
-            -DLLVM_INCLUDE_UTILS=ON \
+            -DLLVM_INCLUDE_UTILS=OFF \
             -DLLVM_USE_CRT_RELEASE=MT \
             -S ../llvm
-          ls ../llvm
-          ls
           ninja install
           copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
           copy lib/lld.lib ${{ env.LLVM_INSTALL_PATH }}/lib
