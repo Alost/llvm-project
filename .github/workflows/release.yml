@@ -38,7 +38,7 @@ jobs:
           cmake ..\llvm `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} `
-            -DLLVM_ENABLE_PROJECTS=lld `
+            -DLLVM_ENABLE_PROJECTS=clang `
             -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON `
             -DLLVM_ENABLE_TERMINFO=OFF `
             -DLLVM_ENABLE_ZLIB=OFF `
