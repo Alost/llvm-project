@@ -50,8 +50,8 @@ jobs:
             -DLLVM_INCLUDE_TESTS=OFF \
             -DLLVM_INCLUDE_UTILS=ON \
             -DLLVM_USE_CRT_RELEASE=MT \
-            -DCMAKE_C_FLAGS="/bigobj" \
-            -DCMAKE_CXX_FLAGS="/bigobj" \
+            -DCMAKE_C_FLAGS=" /bigobj" \
+            -DCMAKE_CXX_FLAGS=" /bigobj" \
             -S ../llvm
           ninja install
           copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
