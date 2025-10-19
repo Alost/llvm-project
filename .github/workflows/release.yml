@@ -31,31 +31,27 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Compile & Install LLVM
-        # shell: bash
+        shell: bash
         run: |
-          # set -euxo pipefail
-          $ErrorActionPreference = "Stop
-          Set-StrictMode -Version Latest
-          Set-PSDebug -Trace 1
-
+          set -euxo pipefail
           mkdir build && cd build
-          cmake --% -G Ninja `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} `
-            -DLLVM_ENABLE_PROJECTS="llvm;clang;lld;lldb" `
-            -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON `
-            -DLLVM_ENABLE_TERMINFO=OFF `
-            -DLLVM_ENABLE_ZLIB=OFF `
-            -DLLVM_INCLUDE_BENCHMARKS=OFF `
-            -DLLVM_INCLUDE_DOCS=OFF `
-            -DLLVM_INCLUDE_EXAMPLES=OFF `
-            -DLLVM_INCLUDE_GO_TESTS=OFF `
-            -DLLVM_INCLUDE_RUNTIMES=OFF `
-            -DLLVM_INCLUDE_TESTS=OFF `
-            -DLLVM_INCLUDE_UTILS=ON `
-            -DLLVM_USE_CRT_RELEASE=MT `
-            -DCMAKE_C_FLAGS="/bigobj" `
-            -DCMAKE_CXX_FLAGS="/bigobj" `
+          cmake --% -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} \
+            -DLLVM_ENABLE_PROJECTS="llvm;clang;lld;lldb" \
+            -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON \
+            -DLLVM_ENABLE_TERMINFO=OFF \
+            -DLLVM_ENABLE_ZLIB=OFF \
+            -DLLVM_INCLUDE_BENCHMARKS=OFF \
+            -DLLVM_INCLUDE_DOCS=OFF \
+            -DLLVM_INCLUDE_EXAMPLES=OFF \
+            -DLLVM_INCLUDE_GO_TESTS=OFF \
+            -DLLVM_INCLUDE_RUNTIMES=OFF \
+            -DLLVM_INCLUDE_TESTS=OFF \
+            -DLLVM_INCLUDE_UTILS=ON \
+            -DLLVM_USE_CRT_RELEASE=MT \
+            -DCMAKE_C_FLAGS="/bigobj" \
+            -DCMAKE_CXX_FLAGS="/bigobj" \
             -S ../llvm
           ninja install
           copy lib/opt.lib ${{ env.LLVM_INSTALL_PATH }}/lib
