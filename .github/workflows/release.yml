@@ -35,7 +35,7 @@ jobs:
         run: |
           set -euxo pipefail
           mkdir build && cd build
-          cmake --% -G Ninja \
+          cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=${{ env.LLVM_INSTALL_PATH }} \
             -DLLVM_ENABLE_PROJECTS="llvm;clang;lld;lldb" \
